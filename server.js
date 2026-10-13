@@ -1,8 +1,7 @@
 const express = require("express"); // 1. charger la bibliothèque Express
 const app = express(); // 2. créer l’application : c’est notre serveur
-const articleRoutes = require("./routes/articleRoute");
-const userRoutes = require("./routes/userRoute");
-
+const articleRoutes = require("./routes/articleRoutes");
+const userRoutes = require("./routes/userRoutes");
 const PORT = process.env.PORT || 3000;
 
 // 1. Middleware pour parser le corps des requêtes en JSON

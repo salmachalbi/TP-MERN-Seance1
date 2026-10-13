@@ -1,6 +1,6 @@
 const { estNonVide, estEmailValide } = require("../utils/validators");
 
-const users = [
+let users = [
   { id: 1, name: "lina", email: "lina@gmail.com", role: "Admin" },
   { id: 2, name: "yousra", email: "yousra@gmail.com", role: "Admin" },
   { id: 3, name: "salma", email: "salma@gmail.com", role: "User" },
@@ -60,8 +60,8 @@ const deleteUser = (req, res) => {
       .json({ error: `Impossible de supprimer : user ${id} introuvable` });
   }
   // On filtre pour ne garder que les users ayant un ID différent
-  usersList = users.filter((a) => a.id !== id);
-  res.status(200).json({ message: "Utilisateur supprimé avec succès" });
+  users = users.filter((a) => a.id !== id);
+  res.status(200).json({ message: `Utilisateur ${id} supprimé avec succès` });
 };
 
 module.exports = {
