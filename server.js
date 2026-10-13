@@ -1,13 +1,25 @@
-const express = require('express'); // 1. charger la bibliothèque Express
-const app = express(); // 2. créer l'application : c'est notre serveur
-const PORT = 3000;
-app . use( express . json () ) ; // lit le corps JSON et le range dans req. body
+const express = require("express"); // 1. charger la bibliothèque Express
+const app = express(); // 2. créer l’application : c’est notre serveur
+const articleRoutes = require("./routes/articleRoute");
+const userRoutes = require("./routes/userRoute");
 
-// 3. une route : quand un client demande GET /, Express exécute cette fonction
-app.get('/', (req, res) => {
-  res.json({ message: "hi, je suis l'API du blog" });
+const PORT = process.env.PORT || 3000;
+
+// 1. Middleware pour parser le corps des requêtes en JSON
+app.use(express.json()); 
+
+// Montage du routeur sous le préfixe '/api/articles'
+app.use("/api/articles", articleRoutes);
+app.use("/api/users", userRoutes);
+
+
+// Route d’accueil pour tester le statut général du serveur
+app.get("/", (req, res) => {
+  res.json({ message: " API du Blog - Serveur Modulaire Opé rationnel (SoC)" });
 });
 
+
+/*
 // 4. démarrer le serveur : il attend les requêtes sur le port 3000
 // Nos données. Elles reviennent à l’état initial à chaque redémarrage :
 // MongoDB les rendra permanentes à la séance 3.
@@ -144,8 +156,8 @@ app.post('/contact', (req, res) => {
     res.status(201).json({
         message: "Message reçu"
     });
-});
-
+});//
+*/
 app.listen(PORT, () => {
   console.log(`Serveur disponible sur http://localhost:${PORT}`);
 });
