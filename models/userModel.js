@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'Le nom est obligatoire'],
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
@@ -13,33 +13,33 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Format d'email invalide (ex: aya@polytechnique.tn)"]
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Format d'email invalide (ex: aya@polytechnique.tn)"],
     },
     age: {
       type: Number,
-      min: [4, "L'age minimum autorise est de 4 ans"]
+      min: [4, "L'age minimum autorise est de 4 ans"],
     },
-    password : {
-type : String ,
-required : [true , "Le mot de passe est obligatoire "] ,
-minlength : [6 , "Le mot de passe doit comporter au moins 6 caracteres "]
-} ,
+    password: {
+      type: String,
+      required: [true, 'Le mot de passe est obligatoire'],
+      minlength: [6, 'Le mot de passe doit comporter au moins 6 caracteres'],
+    },
     role: {
       type: String,
       enum: {
         values: ['user', 'admin'],
-        message: "{VALUE} n'est pas un role autorise"
+        message: "{VALUE} n'est pas un role autorise",
       },
-      default: 'user'
+      default: 'user',
     },
     bio: {
       type: String,
-      maxlength: [200, 'La biographie ne peut pas depasser 200 caracteres']
+      maxlength: [200, 'La biographie ne peut pas depasser 200 caracteres'],
     },
     phone: {
       type: String,
-      match: [/^\d{8}$/, 'Numero de 8 chiffres requis']
-    }
+      match: [/^\d{8}$/, 'Numero de 8 chiffres requis'],
+    },
   },
   { timestamps: true }
 );
