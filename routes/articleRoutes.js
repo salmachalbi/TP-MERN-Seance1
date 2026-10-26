@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const articleController = require('../controllers/articleController');
+const{getAllArticles, getArticleById, createArticle, updateArticle, deleteArticle} = require('../controllers/articleController');
+const {protect} = require('../middlewares/authMiddleware');
 // The '/api/articles' prefix is defined in server.js.
-// Here, '/' represents the root of the '/api/articles' resource.
-router.get('/', articleController.getAllArticles);
-router.get('/:id', articleController.getArticleById);
-router.post('/', articleController.createArticle);
-router.put('/:id', articleController.updateArticle);
-router.delete('/:id', articleController.deleteArticle);
+// Consultation publique
+router.get('/',  getAllArticles);
+router.get('/:id', getArticleById);
+// Creation, modification et suppression d'articles (routes protegees)
+router.post('/', protect, createArticle);
+router.put('/:id', protect, updateArticle);
+router.delete('/:id', protect, deleteArticle);
 module.exports = router;
