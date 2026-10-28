@@ -87,4 +87,38 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile, getAllUsers };
+const updatePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: 'Ancien et nouveau mot de passe requis' });
+    }
+    if (newPassword.length < 8) {
+      return res.status(400).json({ message: 'Le mot de passe doit comporter au moins 8 caracteres' });
+    }
+// Récupérer l'utilisateur connecté
+    const user = await User.findById(req.user._id);   
+if (!user) {
+      return res.status(404).json({
+        message: 'Utilisateur introuvable',
+      });
+    }
+    //  Vérifier l'ancien mot de passe
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Ancien mot de passe incorrect' });
+    }
+// Hacher le nouveau mot de passe
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+    // Sauvegarder les modifications
+    await user.save();
+
+    res.status(200).json({ message: 'Mot de passe mis a jour avec succes' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, getAllUsers, updatePassword };

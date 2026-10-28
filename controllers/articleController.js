@@ -1,5 +1,4 @@
 const Article = require('../models/articleModel');
-const User = require('../models/userModel');
 
 // 1. GET /api/articles - Récupérer tous les articles
 const getAllArticles = async (req, res) => {
