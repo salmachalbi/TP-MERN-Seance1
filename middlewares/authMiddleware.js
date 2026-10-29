@@ -21,6 +21,9 @@ const protect = async (req, res, next) => {
 
     return next();
   } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Votre session a expire, veuillez vous reconnecter' });
+    }
     return res.status(401).json({ message: 'Non autorise, token invalide ou expire' });
   }
 };
