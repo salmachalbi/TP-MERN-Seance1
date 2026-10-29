@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       age,
-      role: 'user', // jamais pris du body
+      role: 'user', // Par défaut, le rôle est "user" pour les nouveaux utilisateurs
     });
 
     res.status(201).json({
@@ -120,5 +120,25 @@ if (!user) {
     res.status(500).json({ message: err.message });
   }
 };
+const updateUserRole = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { role: 'admin' },
+      { new: true, runValidators: true }
+    ).select('-password');
 
-module.exports = { registerUser, loginUser, getUserProfile, getAllUsers, updatePassword };
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouve' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    if (err.name === 'CastError') {
+      return res.status(400).json({ message: 'Identifiant invalide' });
+    }
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, getAllUsers, updatePassword, updateUserRole };
+

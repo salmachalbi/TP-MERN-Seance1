@@ -6,6 +6,7 @@ const {
   getUserProfile,
   getAllUsers,
   updatePassword,
+  updateUserRole,
 } = require('../controllers/userController');
 const { protect, adminOnly } = require('../middlewares/authMiddleware');
 
@@ -19,4 +20,5 @@ router.get('/profile', protect, getUserProfile);
 // Route réservée aux administrateurs (JWT valide + rôle admin)
 router.get('/', protect, adminOnly, getAllUsers);
 router.put('/update-password', protect, updatePassword);
+router.put('/:id/role', protect, adminOnly, updateUserRole);
 module.exports = router;
